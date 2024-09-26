@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1700.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{1E9F0D90-906E-4A50-9231-BADF316878D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{54BD49CA-49D4-4857-8B81-E6B39661DCE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spotify.Slsk.Integration", "Assemblies\Spotify.Slsk.Integration\Spotify.Slsk.Integration.csproj", "{01F84638-9EEB-4838-B23B-4D65672BFFC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spotify.Slsk.Integration.Cli", "Assemblies\Spotify.Slsk.Integration.Cli\Spotify.Slsk.Integration.Cli.csproj", "{22BFA917-A6F1-4D01-926E-5D746F54DC22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Integrated", "Tests\Tests.Integrated\Tests.Integrated.csproj", "{BD667AE1-ECF2-4E50-BA25-96BE401ED386}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01F84638-9EEB-4838-B23B-4D65672BFFC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01F84638-9EEB-4838-B23B-4D65672BFFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01F84638-9EEB-4838-B23B-4D65672BFFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01F84638-9EEB-4838-B23B-4D65672BFFC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22BFA917-A6F1-4D01-926E-5D746F54DC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22BFA917-A6F1-4D01-926E-5D746F54DC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22BFA917-A6F1-4D01-926E-5D746F54DC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22BFA917-A6F1-4D01-926E-5D746F54DC22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD667AE1-ECF2-4E50-BA25-96BE401ED386}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD667AE1-ECF2-4E50-BA25-96BE401ED386}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD667AE1-ECF2-4E50-BA25-96BE401ED386}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD667AE1-ECF2-4E50-BA25-96BE401ED386}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DF6F874-9146-4328-A03D-6E675DE89A8A}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{01F84638-9EEB-4838-B23B-4D65672BFFC1} = {1E9F0D90-906E-4A50-9231-BADF316878D8}
+		{22BFA917-A6F1-4D01-926E-5D746F54DC22} = {1E9F0D90-906E-4A50-9231-BADF316878D8}
+		{BD667AE1-ECF2-4E50-BA25-96BE401ED386} = {54BD49CA-49D4-4857-8B81-E6B39661DCE6}
+	EndGlobalSection
+EndGlobal

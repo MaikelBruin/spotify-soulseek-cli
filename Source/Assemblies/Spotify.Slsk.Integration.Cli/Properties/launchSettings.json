@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "download-playlist": {
+      "commandName": "Project",
+      "commandLineArgs": "download-playlist"
+    },
+    "save-playlist": {
+      "commandName": "Project",
+      "commandLineArgs": "save-playlist"
+    }
+  }
+}
+
