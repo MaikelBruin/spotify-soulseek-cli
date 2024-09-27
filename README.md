@@ -23,15 +23,22 @@ Needs the following credentials to run
 - to publish for mac, use command `dotnet publish  -c Release -p:PublishDir=<someDir>/build --self-contained --runtime osx-x64`
 - to publish for windows, use command `dotnet publish  -c Release -p:PublishDir=<someDir>\build-windows --self-contained --runtime win-x64`
 
+## Usage
+- Download a release from the releases tab
+- Extract it
+- Open folder in a terminal
+- (On Mac) Run `./spotseek --help` to see a list of the available commands
+- (On Windows) Run `.\spotseek.exe --help` to see a list of the available commands
+
 ## Commands
 To show the list of commands:
-`spotseek --help`
+`./spotseek --help`
 
-To show the options of a command:
-`spotseek download-playlist --help`
+To show the options of a specific command, e.g.:
+`./spotseek download-playlist --help`
 
 Example usage of command:
-`spotseek save-playlist -i myspotifyuser -n House -u lala -p lala -g -t 30 -a MY_ACCESS_TOKEN`
+`./spotseek save-playlist -i myspotifyuser -n "My Awesome playlist" -u lala -p lala -g -t 30 -a MY_ACCESS_TOKEN`
 
 ## ToDos
 - let user specify output directory instead of using current directory
