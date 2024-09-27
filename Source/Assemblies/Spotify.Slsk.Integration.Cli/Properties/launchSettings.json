@@ -2,11 +2,19 @@
   "profiles": {
     "download-playlist": {
       "commandName": "Project",
-      "commandLineArgs": "download-playlist"
+      "commandLineArgs": "download-playlist -g"
     },
     "save-playlist": {
       "commandName": "Project",
-      "commandLineArgs": "save-playlist"
+      "commandLineArgs": "save-playlist -g"
+    },
+    "download-track": {
+      "commandName": "Project",
+      "commandLineArgs": "download-track"
+    },
+    "translate-to-open-key": {
+      "commandName": "Project",
+      "commandLineArgs": "translate-to-open-key"
     }
   }
 }

@@ -129,7 +129,8 @@ namespace Spotify.Slsk.Integration.Services.SoulSeek
                 return result;
             }
 
-            string desiredFileName = GetDesiredFileName(trackToDownload.Track!.Track!);
+            
+            string desiredFileName = trackToDownload.Track == null ? file.Filename : GetDesiredFileName(trackToDownload.Track!.Track!);
             result = await DownloadFileAsync(client, response.Username, file.Filename, desiredFileName);
             bool success = result.Success;
 

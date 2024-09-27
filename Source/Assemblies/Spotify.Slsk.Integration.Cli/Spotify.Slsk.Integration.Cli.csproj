@@ -18,4 +18,9 @@
     <ProjectReference Include="..\Spotify.Slsk.Integration\Spotify.Slsk.Integration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Properties\launchSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

@@ -114,6 +114,7 @@ namespace Spotify.Slsk.Integration.Cli.Commands.SubCommands
                     SpotifyPlaylistName,
                     SSUsername,
                     SSPassword,
+                    SpotifyAccessToken,
                     SetId3Tags,
                     MusicalKeyFormat.from(DesiredKeyFormat),
                     options =>

@@ -17,6 +17,6 @@ public class DownloadTests
     [InlineData("sherrif", "someId")]
     public async Task ShouldDownloadAllTracksFromPlaylistInParallel(string userId, string playlistId)
     {
-        await DownloadService.DownloadAllPlaylistTracksFromUserAsync(userId, playlistId, null, "someUserNameOrPassword", "someUserNameOrPassword", false, MusicalKeyFormat.OpenKey);
+        await DownloadService.DownloadAllPlaylistTracksFromUserAsync(userId, playlistId, null, "someUserNameOrPassword", "someUserNameOrPassword", "someAccessToken", false, MusicalKeyFormat.OpenKey);
     }
 }

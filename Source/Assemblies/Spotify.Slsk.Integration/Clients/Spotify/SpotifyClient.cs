@@ -16,14 +16,14 @@ namespace Spotify.Slsk.Integration.Services.Spotify
         {
         }
 
-        public async Task<List<PlaylistItem>> GetAllPlaylistsFromUser(string userId)
+        public async Task<List<PlaylistItem>> GetAllPlaylistsFromUser(string userId, string spotifyAccessToken)
         {
             List<PlaylistItem> result = new();
             int offset = 0;
             int limit = 50;
 
 
-            PageWithPlaylists pageWithPlaylists = await GetPlaylistsFromUser(userId, limit, offset);
+            PageWithPlaylists pageWithPlaylists = await GetPlaylistsFromUser(userId, limit, offset, spotifyAccessToken);
             int total = pageWithPlaylists.Total;
 
             int pages = total / limit;
@@ -39,7 +39,7 @@ namespace Spotify.Slsk.Integration.Services.Spotify
                     result.Add(item);
                 }
                 offset += limit;
-                pageWithPlaylists = await GetPlaylistsFromUser(userId, limit, offset);
+                pageWithPlaylists = await GetPlaylistsFromUser(userId, limit, offset, spotifyAccessToken);
             }
 
             return result;
@@ -85,14 +85,14 @@ namespace Spotify.Slsk.Integration.Services.Spotify
             return result;
         }
 
-        public async Task<List<TrackItem>> GetAllPlaylistTracksFromUser(string userId, string playlistId)
+        public async Task<List<TrackItem>> GetAllPlaylistTracksFromUser(string userId, string playlistId, string accessToken)
         {
             List<TrackItem> result = new();
             int offset = 0;
             int limit = 50;
 
 
-            PageWithTracks pageWithTracks = await GetPlaylistItemsFromUser(userId, playlistId, limit, offset);
+            PageWithTracks pageWithTracks = await GetPlaylistItemsFromUser(userId, playlistId, limit, offset, accessToken);
             int total = pageWithTracks.Total!.Value;
 
             int pages = total / limit;
@@ -108,7 +108,7 @@ namespace Spotify.Slsk.Integration.Services.Spotify
                     result.Add(item);
                 }
                 offset += limit;
-                pageWithTracks = await GetPlaylistItemsFromUser(userId, playlistId, limit, offset);
+                pageWithTracks = await GetPlaylistItemsFromUser(userId, playlistId, limit, offset, accessToken);
             }
 
             return result;
@@ -170,9 +170,9 @@ namespace Spotify.Slsk.Integration.Services.Spotify
             return recentTrackItems;
         }
 
-        public async Task<PlaylistItem> GetPlaylistFromUserByName(string userId, string playlistName)
+        public async Task<PlaylistItem> GetPlaylistFromUserByName(string userId, string playlistName, string spotifyAccessToken)
         {
-            List<PlaylistItem> playlistItems = await GetAllPlaylistsFromUser(userId);
+            List<PlaylistItem> playlistItems = await GetAllPlaylistsFromUser(userId, spotifyAccessToken);
             PlaylistItem? playlistItem = playlistItems.FirstOrDefault(playlist => playlist.Name == playlistName);
             return playlistItem
                 ?? throw new Exception($"Playlist with name '{playlistName}' not found for user '{userId}'");
@@ -189,44 +189,44 @@ namespace Spotify.Slsk.Integration.Services.Spotify
             return await DeserializeResponseAsync<PageWithTracks>(response);
         }
 
-        public async Task<PageWithPlaylists> GetPlaylistsFromUser(string userId, int limit, int offset)
+        public async Task<PageWithPlaylists> GetPlaylistsFromUser(string userId, int limit, int offset, string spotifyAccessToken)
         {
             string endpoint = $"users/{userId}/playlists";
             string queryParams = $"?limit={limit}&offset={offset}";
 
             HttpRequestMessage request = new(HttpMethod.Get, $"{SPOTIFY_BASE_URL}{endpoint}{queryParams}");
-            HttpResponseMessage response = await GetResponseAsync(request);
+            HttpResponseMessage response = await GetResponseAsync(request, spotifyAccessToken);
 
             return await DeserializeResponseAsync<PageWithPlaylists>(response);
         }
 
-        public async Task<AudioFeatures> GetTrackAudioFeatures(string trackId)
+        public async Task<AudioFeatures> GetTrackAudioFeatures(string trackId, string accessToken)
         {
             string endpoint = $"audio-features/{trackId}";
 
             HttpRequestMessage request = new(HttpMethod.Get, $"{SPOTIFY_BASE_URL}{endpoint}");
-            HttpResponseMessage response = await GetResponseAsync(request);
+            HttpResponseMessage response = await GetResponseAsync(request, accessToken);
 
             return await DeserializeResponseAsync<AudioFeatures>(response);
         }
 
-        public async Task<PlaylistItem> GetPlaylistFromUser(string userId, string playlistId)
+        public async Task<PlaylistItem> GetPlaylistFromUser(string userId, string playlistId, string accessToken)
         {
             string endpoint = $"users/{userId}/playlists/{playlistId}";
 
             HttpRequestMessage request = new(HttpMethod.Get, $"{SPOTIFY_BASE_URL}{endpoint}");
-            HttpResponseMessage response = await GetResponseAsync(request);
+            HttpResponseMessage response = await GetResponseAsync(request, accessToken);
 
             return await DeserializeResponseAsync<PlaylistItem>(response);
         }
 
-        public async Task<PageWithTracks> GetPlaylistItemsFromUser(string userId, string playlistId, int limit, int offset)
+        public async Task<PageWithTracks> GetPlaylistItemsFromUser(string userId, string playlistId, int limit, int offset, string accessToken)
         {
             string endpoint = $"users/{userId}/playlists/{playlistId}/tracks";
             string queryParams = $"?limit={limit}&offset={offset}";
 
             HttpRequestMessage request = new(HttpMethod.Get, $"{SPOTIFY_BASE_URL}{endpoint}{queryParams}");
-            HttpResponseMessage response = await GetResponseAsync(request);
+            HttpResponseMessage response = await GetResponseAsync(request, accessToken);
 
             return await DeserializeResponseAsync<PageWithTracks>(response);
         }

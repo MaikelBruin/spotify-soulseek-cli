@@ -16,18 +16,17 @@ public class SpotifyTests
     [Fact(Skip = "Requires auth")]
     public async Task ShouldReturnPageWithTracksFromPlaylist()
     {
-        string playlistId = "7dYubYJ9MkFVvCNrSVcuOJ";
+        string playlistId = "someId";
         PageWithTracks playlistItems = await SpotifyClient.GetPlaylistItems("someAccessToken", playlistId, 50, 0);
         Assert.NotNull(playlistItems);
         Assert.NotEmpty(playlistItems.Items!);
     }
 
-    [Theory]
-    [InlineData("sherrif", "7dYubYJ9MkFVvCNrSVcuOJ")]
-    [InlineData("sherrif", "3yacCqGYaaXx7DoTfZal61")]
+    [Theory(Skip = "Requires auth")]
+    [InlineData("sherrif", "someId")]
     public async Task ShouldReturnPageWithTracksFromUserPlaylist(string userId, string playlistId)
     {
-        PageWithTracks playlistItems = await SpotifyClient.GetPlaylistItemsFromUser(userId, playlistId, 50, 0);
+        PageWithTracks playlistItems = await SpotifyClient.GetPlaylistItemsFromUser(userId, playlistId, 50, 0, "someAccessToken");
         Assert.NotEmpty(playlistItems.Items!);
     }
 

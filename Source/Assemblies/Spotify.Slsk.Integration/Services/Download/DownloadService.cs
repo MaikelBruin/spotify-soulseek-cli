@@ -22,7 +22,7 @@ namespace Spotify.Slsk.Integration.Services.Download
         }
 
         public async Task DownloadAllPlaylistTracksFromUserAsync(string spotifyUserId, string? spotifyPlaylistId, string? spotifyPlaylistName,
-            string ssUsername, string ssPassword, bool setId3Tags, MusicalKeyFormat musicalKeyFormat, Action<SoulseekOptions>? soulseekOptionsAction = null)
+            string ssUsername, string ssPassword, string spotifyAccessToken, bool setId3Tags, MusicalKeyFormat musicalKeyFormat, Action<SoulseekOptions>? soulseekOptionsAction = null)
         {
             SoulseekOptions options = new();
             soulseekOptionsAction?.Invoke(options);
@@ -34,15 +34,15 @@ namespace Spotify.Slsk.Integration.Services.Download
                 spotifyPlaylistName = spotifyPlaylistName
                     ?? throw new Exception("Please provide playlist name or Id");
                 Log.Warning($"Playlist Id not present, searching for playlist '{spotifyPlaylistName}' of user '{spotifyUserId}'...");
-                playlistItem = await SpotifyClient.GetPlaylistFromUserByName(spotifyUserId, spotifyPlaylistName);
+                playlistItem = await SpotifyClient.GetPlaylistFromUserByName(spotifyUserId, spotifyPlaylistName, spotifyAccessToken);
                 spotifyPlaylistId = playlistItem.Id;
             }
             else
             {
-                playlistItem = await SpotifyClient.GetPlaylistFromUser(spotifyUserId, spotifyPlaylistId);
+                playlistItem = await SpotifyClient.GetPlaylistFromUser(spotifyUserId, spotifyPlaylistId, spotifyAccessToken);
             }
 
-            List<TrackItem> trackItems = await SpotifyClient.GetAllPlaylistTracksFromUser(spotifyUserId, spotifyPlaylistId!);
+            List<TrackItem> trackItems = await SpotifyClient.GetAllPlaylistTracksFromUser(spotifyUserId, spotifyPlaylistId!, spotifyAccessToken);
             List<TrackToDownload> tracksToDownload = new();
             foreach (TrackItem trackItem in trackItems)
             {
@@ -54,17 +54,14 @@ namespace Spotify.Slsk.Integration.Services.Download
             }
 
             string playlistName = playlistItem.Name!;
-            await DownloadTracksInParallelAsync(ssUsername, ssPassword, null, tracksToDownload, playlistName, options, setId3Tags, musicalKeyFormat, save: false);
+            await DownloadTracksInParallelAsync(ssUsername, ssPassword, spotifyAccessToken, tracksToDownload, playlistName, options, setId3Tags, musicalKeyFormat, save: false);
         }
 
         public async Task DownloadUnsavedPlaylistTracksFromUserAsync(string spotifyUserId, string? spotifyPlaylistId, string? spotifyPlaylistName,
             string ssUsername, string ssPassword, string spotifyAccessToken, bool setId3Tags, MusicalKeyFormat musicalKeyFormat, Action<SoulseekOptions>? soulseekOptionsAction = null)
         {
             SoulseekOptions options = new();
-            if (soulseekOptionsAction != null)
-            {
-                soulseekOptionsAction.Invoke(options);
-            }
+            soulseekOptionsAction?.Invoke(options);
 
             await SoulseekService.ConnectAndLoginAsync(SoulseekClient, ssUsername, ssPassword);
             PlaylistItem playlistItem = new();
@@ -73,7 +70,7 @@ namespace Spotify.Slsk.Integration.Services.Download
                 spotifyPlaylistName = spotifyPlaylistName
                     ?? throw new Exception("Please provide playlist name or Id");
                 Log.Warning($"Playlist Id not present, searching for playlist '{spotifyPlaylistName}' of user '{spotifyUserId}'...");
-                playlistItem = await SpotifyClient.GetPlaylistFromUserByName(spotifyUserId, spotifyPlaylistName);
+                playlistItem = await SpotifyClient.GetPlaylistFromUserByName(spotifyUserId, spotifyPlaylistName, spotifyAccessToken);
                 spotifyPlaylistId = playlistItem.Id;
             }
 
@@ -94,7 +91,7 @@ namespace Spotify.Slsk.Integration.Services.Download
             await DownloadTracksInParallelAsync(ssUsername, ssPassword, spotifyAccessToken, tracksToDownload, playlistName, options, setId3Tags, musicalKeyFormat, save: true);
         }
 
-        private async Task DownloadTracksInParallelAsync(string ssUsername, string ssPassword, string? spotifyAccessToken, List<TrackToDownload> tracksToDownload, string playlistName,
+        private async Task DownloadTracksInParallelAsync(string ssUsername, string ssPassword, string spotifyAccessToken, List<TrackToDownload> tracksToDownload, string playlistName,
             SoulseekOptions options, bool setId3Tags, MusicalKeyFormat musicalKeyFormat, bool save = true)
         {
             SemaphoreSlim semaphoreSlim = new(5);
@@ -115,7 +112,7 @@ namespace Spotify.Slsk.Integration.Services.Download
             await Task.WhenAll(tasks);
         }
 
-        private async Task<bool> DownloadSpotifyTrackAsync(string ssUsername, string ssPassword, string? spotifyAccessToken, string playlistName,
+        private async Task<bool> DownloadSpotifyTrackAsync(string ssUsername, string ssPassword, string spotifyAccessToken, string playlistName,
             TrackToDownload trackToDownload, SoulseekOptions soulseekOptions, bool setId3Tags, MusicalKeyFormat musicalKeyFormat, bool save = false)
         {
             SoulseekResult result = new();
@@ -132,13 +129,13 @@ namespace Spotify.Slsk.Integration.Services.Download
             if (result.Success && save)
             {
                 Log.Information($"Download successful, saving track in spotify...");
-                await SpotifyClient.SaveTrackAsync(spotifyAccessToken!, trackToDownload.Track!);
+                await SpotifyClient.SaveTrackAsync(spotifyAccessToken, trackToDownload.Track!);
             }
 
             if (result.Success && setId3Tags)
             {
                 Log.Information($"Setting ID3 tags of downloaded file...");
-                AudioFeatures audioFeatures = await SpotifyClient.GetTrackAudioFeatures(trackToDownload.Track!.Track!.Id!);
+                AudioFeatures audioFeatures = await SpotifyClient.GetTrackAudioFeatures(trackToDownload.Track!.Track!.Id!, spotifyAccessToken);
                 Id3TagService.SetId3Tags(trackToDownload.Track, audioFeatures, musicalKeyFormat, result.FilePath!);
             };
 
