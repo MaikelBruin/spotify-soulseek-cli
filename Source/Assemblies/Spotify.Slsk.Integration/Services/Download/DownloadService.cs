@@ -144,31 +144,8 @@ namespace Spotify.Slsk.Integration.Services.Download
 
         public static string GetQueryForTrack(TrackItem trackItem)
         {
-            return GetQueryableString($"{trackItem.Track!.Name} {trackItem.Track.Artists![0].Name} {trackItem.Track.Album!.Name}");
-        }
-
-        private static string GetQueryableString(string input)
-        {
-            StringBuilder stringBuilder = new();
-            string processed = input.Replace("-", " ").Replace("(", "").Replace(")", "");
-            foreach (string queryPart in processed.Split(" "))
-            {
-                if (!queryPart.HasSpecialChars())
-                {
-                    stringBuilder.Append(queryPart).Append(' ');
-                }
-            }
-
-            string result = stringBuilder.ToString();
-            if (string.IsNullOrWhiteSpace(result))
-            {
-                Log.Warning($"Track '{input}' produced an empty query, trying with raw input including special chars...");
-                return input;
-            }
-            else
-            {
-                return result.Trim();
-            }
+            string queryRaw = $"{trackItem.Track!.Name} {trackItem.Track.Artists![0].Name} {trackItem.Track.Album!.Name}";
+            return queryRaw.RemoveSpecialCharacters();
         }
     }
 }

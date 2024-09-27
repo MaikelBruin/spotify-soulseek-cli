@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>spotseek</AssemblyName>
-    <InformationalVersion>1.5.4</InformationalVersion>
+    <InformationalVersion>1.5.5</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
