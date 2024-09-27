@@ -23,7 +23,7 @@ Needs the following credentials to run
 - to publish for mac, use command `dotnet publish  -c Release -p:PublishDir=<someDir>/build --self-contained --runtime osx-x64`
 - to publish for windows, use command `dotnet publish  -c Release -p:PublishDir=<someDir>\build-windows --self-contained --runtime win-x64`
 
-## commands
+## Commands
 To show the list of commands:
 `spotseek --help`
 
