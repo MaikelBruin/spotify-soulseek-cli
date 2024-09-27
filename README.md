@@ -32,3 +32,7 @@ To show the options of a command:
 
 Example usage of command:
 `spotseek save-playlist -i myspotifyuser -n House -u lala -p lala -g -t 30 -a MY_ACCESS_TOKEN`
+
+## ToDos
+- let user specify output directory instead of using current directory
+- rearrange arguments and make some static
