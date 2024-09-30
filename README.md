@@ -1,7 +1,7 @@
 # Spotseek
 Command line interface that integrates the spotify api with the soulseek api. Only intended for personal, non-commercial use. Support artists and do not use this code to download licensed music.
 
-Needs the following credentials to run
+Depending on the command, you may need the following credentials to run
 - a spotify access token which you can obtain [using any of the available methods](https://developer.spotify.com/documentation/web-api/tutorials/getting-started#request-an-access-token)
 - soulseek credentials
 
@@ -37,8 +37,44 @@ To show the list of commands:
 To show the options of a specific command, e.g.:
 `./spotseek download-playlist --help`
 
+### download-playlist command
+Attempts to download all songs from a playlist if a match is found in soulseek with certain filters to ensure the right song is downloaded with a bitrate of at least 320kbps.
+
+Requires:
+- spotify access token
+- soulseek credentials
+
 Example usage of command:
-`./spotseek save-playlist -i myspotifyuser -n "My Awesome playlist" -u lala -p lala -g -t 30 -a MY_ACCESS_TOKEN`
+`./spotseek download-playlist -i myspotifyuser -n "My Awesome playlist" -u soulseekUser -p soulseekPass -g -t 30 -a MY_ACCESS_TOKEN`
+
+### save-playlist command
+Attempts to download all songs from a playlist that are not yet in your "Liked Songs" playlist with certain filters to ensure the right song is downloaded with a bitrate of at least 320kbps. Will add the song to your "Liked Songs" if a song is succesfully downloaded.
+
+Requires:
+- spotify access token
+- soulseek credentials
+
+Example usage of command:
+`./spotseek save-playlist -i myspotifyuser -n "My Awesome playlist" -u soulseekUser -p soulseekPass -g -t 30 -a MY_ACCESS_TOKEN`
+
+### download-track command
+Attempts to download a song from soulseek based on the provided query, again with all filters for quality but with less filters for determining if the right song is downloaded.
+
+Requires:
+- soulseek credentials
+
+Example usage of command:
+`./spotseek download-track -u soulseekUser -p soulseekPass -q someQuery`
+
+
+### translate-to-open-key command
+Translates the "InitialKey" Id3Tag of a song to [OpenKey format](https://blog.faderpro.com/music-theory/camelot-wheel-dj-harmonic-mixing/).
+
+Requires:
+- no credentials
+
+Example usage of command:
+`./spotseek translate-to-open-key -f someFolder`
 
 ## ToDos
 - let user specify output directory instead of using current directory
