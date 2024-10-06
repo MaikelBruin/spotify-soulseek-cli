@@ -78,4 +78,5 @@ Example usage of command:
 
 ## ToDos
 - let user specify output directory instead of using current directory
+- use dependency injection
 - rearrange arguments and make some static
